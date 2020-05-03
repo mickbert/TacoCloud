@@ -30,3 +30,9 @@ out/
 
 ### VS Code ###
 .vscode/
+.DS_Store
+bin
+gradle
+gradlew
+gradlew.bat
+
