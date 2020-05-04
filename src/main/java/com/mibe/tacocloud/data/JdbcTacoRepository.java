@@ -41,7 +41,7 @@ class JdbcTacoRepository implements TacoRepository {
     }
 
     private long saveTacoInfo(Taco aTaco) {
-        aTaco.setCreatedAt();
+        aTaco.setCreatedAtToNow();
         PreparedStatementCreatorFactory pscf=
             new PreparedStatementCreatorFactory("INSERT INTO Taco (name,createdAt) VALUES(?,?)",
                                                 Types.VARCHAR,Types.TIMESTAMP);
@@ -50,10 +50,6 @@ class JdbcTacoRepository implements TacoRepository {
                                                            Timestamp.valueOf(aTaco.getCreatedAt())));
         KeyHolder keyHolder=new GeneratedKeyHolder();
         m_jdbc.update(psc,keyHolder);
-        if(keyHolder.getKey()==null) {
-            System.err.println("Error obtaining taco id!!!! Workaround: SELECT MAX(ID)");
-            return m_jdbc.queryForObject("SELECT MAX(ID) FROM TACO",Long.class);
-        }
         return keyHolder.getKey().longValue();
     }
 
