@@ -28,10 +28,10 @@ public class Taco {
     }
 
     public LocalDateTime getCreatedAt() {return m_createdAt;}
-    public void SetCreatedAt(LocalDateTime aCreationTimestamp) {
+    public void setCreatedAt(LocalDateTime aCreationTimestamp) {
         m_createdAt=aCreationTimestamp;
     }
-    public LocalDateTime setCreatedAt() {
+    public LocalDateTime setCreatedAtToNow() {
         return m_createdAt=LocalDateTime.now();
     }
 }
