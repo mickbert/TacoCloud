@@ -13,7 +13,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.mibe.tacocloud.Taco;
+import com.mibe.tacocloud.model.Taco;
 
 
 @ExtendWith(SpringExtension.class)

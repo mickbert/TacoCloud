@@ -1,12 +1,10 @@
 package com.mibe.tacocloud.data;
 
-import com.mibe.tacocloud.Taco;
-import com.mibe.tacocloud.Ingredient;
+import com.mibe.tacocloud.model.Taco;
 
 import java.sql.Types;
 import java.sql.Timestamp;
 import java.util.Arrays;
-import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,12 +16,12 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository
-class JdbcTacoRepository implements TacoRepository {
-    JdbcTemplate m_jdbc;
+class TacoRepositoryJdbc implements TacoRepository {
+    JdbcTemplate jdbc;
 
     @Autowired
-    public JdbcTacoRepository(JdbcTemplate aJdbcTemp) {
-        m_jdbc=aJdbcTemp;
+    public TacoRepositoryJdbc(JdbcTemplate aJdbcTemp) {
+        jdbc =aJdbcTemp;
     }
     
     @Override
@@ -49,12 +47,12 @@ class JdbcTacoRepository implements TacoRepository {
             pscf.newPreparedStatementCreator(Arrays.asList(aTaco.getName(),
                                                            Timestamp.valueOf(aTaco.getCreatedAt())));
         KeyHolder keyHolder=new GeneratedKeyHolder();
-        m_jdbc.update(psc,keyHolder);
+        jdbc.update(psc,keyHolder);
         return keyHolder.getKey().longValue();
     }
 
     private void saveIngredientOfTaco(String anIngredient,long aTacoId) {
-        m_jdbc.update("INSERT INTO Taco_Ingredients (taco,ingredient) VALUES(?,?)",
+        jdbc.update("INSERT INTO Taco_Ingredients (taco,ingredient) VALUES(?,?)",
                     aTacoId,anIngredient);
     }
 

@@ -1,22 +1,19 @@
 package com.mibe.tacocloud.data;
 
-import com.mibe.tacocloud.Ingredient;
+import com.mibe.tacocloud.model.Ingredient;
 
 import java.sql.SQLException;
 import java.sql.ResultSet;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class JdbcIngredientRepository implements IngredientRepository {
-    private JdbcTemplate m_jdbc;
+public class IngredientRepositoryJdbc implements IngredientRepository {
+    private final JdbcTemplate jdbc;
     
-    @Autowired
-    public JdbcIngredientRepository(JdbcTemplate aJdbc) {
-        m_jdbc=aJdbc;
+    public IngredientRepositoryJdbc(JdbcTemplate aJdbc) {
+        jdbc =aJdbc;
     }
 
     private static Ingredient mapRowToIngredient(ResultSet aRs,int aRowCnt)
@@ -28,20 +25,20 @@ public class JdbcIngredientRepository implements IngredientRepository {
     
     @Override
     public Ingredient findOne(String aId) {
-        return m_jdbc.queryForObject(
+        return jdbc.queryForObject(
                 "SELECT ID,NAME,TYPE FROM INGREDIENT where id=?",
-                JdbcIngredientRepository::mapRowToIngredient,aId);
+                IngredientRepositoryJdbc::mapRowToIngredient,aId);
     }
 
     @Override
     public Iterable<Ingredient> findAll() {
-        return m_jdbc.query("SELECT ID,NAME,TYPE FROM INGREDIENT",
-                JdbcIngredientRepository::mapRowToIngredient);
+        return jdbc.query("SELECT ID,NAME,TYPE FROM INGREDIENT",
+                IngredientRepositoryJdbc::mapRowToIngredient);
     }
 
     @Override
     public Ingredient save(Ingredient aNewIngredient) {
-        m_jdbc.update("INSERT INTO INGREDIENT (ID,NAME,TYPE) VALUES(?,?,?)",
+        jdbc.update("INSERT INTO INGREDIENT (ID,NAME,TYPE) VALUES(?,?,?)",
                 aNewIngredient.id(),
                 aNewIngredient.name(),
                 aNewIngredient.type().toString());

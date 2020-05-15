@@ -15,25 +15,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import com.mibe.tacocloud.Taco;
-import com.mibe.tacocloud.Order;
+import com.mibe.tacocloud.model.Taco;
+import com.mibe.tacocloud.model.Order;
 import com.mibe.tacocloud.data.IngredientRepository;
 import com.mibe.tacocloud.data.TacoRepository;
-import com.mibe.tacocloud.Ingredient;
-import com.mibe.tacocloud.Ingredient.Type;
+import com.mibe.tacocloud.model.Ingredient;
+import com.mibe.tacocloud.model.Ingredient.Type;
 
 @Controller
 @RequestMapping("/design")
 @SessionAttributes("order")
 public class DesignTacoController {
 
-    private final IngredientRepository m_ingredientRepo;
-    private TacoRepository m_tacoRepository;
+    private final IngredientRepository ingredientRepo;
+    private final TacoRepository tacoRepository;
 
     public DesignTacoController(IngredientRepository aIngRepo,
                                 TacoRepository aTacoRepo) {
-        m_ingredientRepo=aIngRepo;
-        m_tacoRepository=aTacoRepo;
+        ingredientRepo=aIngRepo;
+        tacoRepository=aTacoRepo;
     }
 
     @ModelAttribute(name="order")
@@ -45,7 +45,7 @@ public class DesignTacoController {
     public String showDesignForm(Model aModel) {
         System.out.println("get design form");
         List<Ingredient> ingList=new ArrayList<>();
-        for(Ingredient ing:m_ingredientRepo.findAll())
+        for(Ingredient ing: ingredientRepo.findAll())
             ingList.add(ing);
                 
         Type typeList[]=Ingredient.Type.values();
@@ -72,7 +72,7 @@ public class DesignTacoController {
             System.err.printf("DesignTacoController.java:59: %s%n",aResult);
             return "design";
         }
-        if(m_tacoRepository.save(aDesign)==null) {
+        if(tacoRepository.save(aDesign)==null) {
             return "design";
         }
         return "redirect:/orders/current";

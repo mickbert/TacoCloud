@@ -1,6 +1,6 @@
 package com.mibe.tacocloud.web;
 
-import com.mibe.tacocloud.Order;
+import com.mibe.tacocloud.model.Order;
 import com.mibe.tacocloud.data.OrderRepository;
 
 import javax.validation.Valid;

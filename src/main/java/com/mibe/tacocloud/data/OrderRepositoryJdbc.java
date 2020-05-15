@@ -1,7 +1,6 @@
 package com.mibe.tacocloud.data;
 
-import com.mibe.tacocloud.Order;
-import com.mibe.tacocloud.Taco;
+import com.mibe.tacocloud.model.Order;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -13,13 +12,13 @@ import org.springframework.stereotype.Repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
     
 @Repository
-public class JdbcOrderRepository implements OrderRepository {
+public class OrderRepositoryJdbc implements OrderRepository {
     SimpleJdbcInsert orderInserter;
     SimpleJdbcInsert tacoOrderedInserter;
     ObjectMapper objectMapper;
 
     @Autowired
-    public JdbcOrderRepository(JdbcTemplate aJdbcHandler) {
+    public OrderRepositoryJdbc(JdbcTemplate aJdbcHandler) {
         orderInserter=new SimpleJdbcInsert(aJdbcHandler)
             .withTableName("Taco_Order")
             .usingGeneratedKeyColumns("id");
